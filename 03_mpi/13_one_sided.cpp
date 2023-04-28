@@ -20,6 +20,12 @@ int main(int argc, char ** argv) {
   MPI_Put(send, N, MPI_INT, send_to, 0, N, MPI_INT, win);
   MPI_Win_fence(0, win);
   printf("rank%d: send=[%d %d %d %d], recv=[%d %d %d %d]\n",rank,
+          send[0],send[1],send[2],send[3],recv[0],recv[1],recv[2],recv[3]);
+  
+  send_to = (rank - 1 + size - 1) % size;
+  MPI_Put(send, N, MPI_INT, send_to, 0, N, MPI_INT, win);
+  MPI_Win_fence(0, win);
+  printf("rank%d: send=[%d %d %d %d], recv=[%d %d %d %d]\n",rank,
          send[0],send[1],send[2],send[3],recv[0],recv[1],recv[2],recv[3]);
   MPI_Win_free(&win);
   MPI_Finalize();
