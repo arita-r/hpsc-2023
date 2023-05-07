@@ -19,7 +19,7 @@ __global__ void bucket_sort(int *bucket,int *key, int range){
 
 int main(){
   int n = 50;
-  int range = 4;
+  int range = 5;
   // cuda
   int *bucket;
   int *key;
