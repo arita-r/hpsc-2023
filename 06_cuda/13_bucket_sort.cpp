@@ -4,14 +4,14 @@
 
 int main() {
   int n = 50;
-  int range = 5;
+  int range = 4;
   std::vector<int> key(n);
   for (int i=0; i<n; i++) {
     key[i] = rand() % range;
     printf("%d ",key[i]);
   }
   printf("\n");
-
+  
   std::vector<int> bucket(range); 
   for (int i=0; i<range; i++) {
     bucket[i] = 0;
@@ -22,6 +22,7 @@ int main() {
   for (int i=0, j=0; i<range; i++) {
     for (; bucket[i]>0; bucket[i]--) {
       key[j++] = i;
+      
     }
   }
 
