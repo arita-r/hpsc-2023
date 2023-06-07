@@ -71,7 +71,7 @@ int main(){
     for(int n=0; n<nt; n++){
         printf("%d/%d\n",n, nt);
         // calculate b
-        calc_b<<<1, 1>>>(b, u, v, rho, dt, dx, dy, nx, ny); 
+        calc_b<<<1, ny*nx>>>(b, u, v, rho, dt, dx, dy, nx, ny); 
         cudaDeviceSynchronize();
         // calculate p
         for(int it=0; it<nit; it++){
@@ -81,7 +81,7 @@ int main(){
                     pn[j*ny + i*nx] = p[j*ny + i*nx];
                 }
             }
-            calc_p<<<1, 1>>>(b, p, pn, dx, dy, nx, ny);
+            calc_p<<<1, ny*nx>>>(b, p, pn, dx, dy, nx, ny);
             cudaDeviceSynchronize();
             for(int j=0; j<ny; j++){
                 p[j*ny + (nx-1)*nx] = p[j*ny + (nx-2)*nx];  // p[:, -1] = p[:, -2]
@@ -99,7 +99,7 @@ int main(){
                 vn[j*ny + i*nx] = v[j*ny + i*nx];
             }
         }     
-        calc_uv<<<1, 1>>>(u, v, un, vn, p, rho, nu, dt, dx, dy, nx, ny);
+        calc_uv<<<1, ny*nx>>>(u, v, un, vn, p, rho, nu, dt, dx, dy, nx, ny);
         cudaDeviceSynchronize();
         for(int j=0; j<ny; j++){
             u[j*ny +      0*nx] = 0;  // u[:, 0] = 0;
